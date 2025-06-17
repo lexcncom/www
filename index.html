@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>​律科森​ lexcn.com 法律资源导航</title>
+    <style>
+        :root {
+            --bg-color: #f8f9fa;
+            --text-color: #212529;
+            --card-bg: #ffffff;
+            --header-bg: #2c3e50;
+            --primary-color: #3498db;
+            --secondary-color: #6c757d;
+            --border-color: #dee2e6;
+            --hover-color: #f1f3f5;
+            --shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+            --spacing-sm: 2px;
+            --spacing-md: 4px;
+            --spacing-lg: 8px;
+        }
+
+        .dark-mode {
+            --bg-color: #121212;
+            --text-color: #f1f1f1;
+            --card-bg: #1e1e1e;
+            --header-bg: #0d1b2a;
+            --primary-color: #4ea8de;
+            --secondary-color: #90a4ae;
+            --border-color: #333333;
+            --hover-color: #2d2d2d;
+            --shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .container {
+            width: 95%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        header {
+            background-color: var(--header-bg);
+            color: white;
+            padding: 6px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: var(--shadow);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo-icon {
+            font-size: 2rem;
+            margin-right: 10px;
+        }
+
+        .logo-text {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        .search-container {
+            flex: 1;
+            max-width: 500px;
+            margin: 10px 20px;
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 10px 15px;
+            padding-right: 45px;
+            border: none;
+            border-radius: 50px;
+            background-color: rgba(255, 255, 255, 0.2);
+            color: white;
+            font-size: 1rem;
+        }
+
+        .search-input::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .search-button {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+            font-size: 1.2rem;
+        }
+
+        .controls {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .theme-toggle {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .nav-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+            margin-top: 15px;
+            overflow-x: auto;
+            padding-bottom: 5px;
+        }
+
+        .tab-button {
+            background-color: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 16px;
+            cursor: pointer;
+            font-size: 0.75rem;
+            transition: background-color 0.3s;
+            white-space: nowrap;
+        }
+
+        .tab-button:hover, .tab-button.active {
+            background-color: rgba(255, 255, 255, 0.3);
+        }
+
+        main {
+            padding: 8px 0;
+        }
+
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 6px;
+            margin-top: var(--spacing-md);
+        }
+
+        .category-card {
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            transition: transform 0.3s;
+            border: 1px solid var(--border-color);
+        }
+
+        .category-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .category-header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 5px 8px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            line-height: 1.2;
+        }
+
+        .site-list {
+            list-style: none;
+            padding: var(--spacing-md);
+        }
+
+        .site-item {
+            padding: 4px 5px;
+            border-bottom: 1px solid var(--border-color);
+            transition: background-color 0.3s;
+            font-size: 0.85rem;
+            line-height: 1.3;
+        }
+
+        .site-item:last-child {
+            border-bottom: none;
+        }
+
+        .site-item:hover {
+            background-color: var(--hover-color);
+        }
+
+        .site-link {
+            text-decoration: none;
+            color: var(--primary-color);
+            font-weight: 500;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .site-link:hover {
+            text-decoration: underline;
+        }
+
+        .site-desc {
+            font-size: 0.7rem;
+            color: var(--secondary-color);
+            margin-top: 1px;
+            line-height: 1.2;
+        }
+
+        footer {
+            background-color: var(--header-bg);
+            color: white;
+            padding: 30px 0;
+            text-align: center;
+        }
+
+        .copyright {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .category-section {
+            display: none;
+            margin-bottom: 6px;
+        }
+
+        .category-section.active {
+            display: block;
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .search-container {
+                width: 100%;
+                margin: 15px 0;
+            }
+            
+            .controls {
+                align-self: flex-end;
+            }
+            
+            .nav-tabs {
+                margin-top: 10px;
+            }
+            
+            .category-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+        }
+
+        @media (max-width: 480px) {
+            .logo-text {
+                font-size: 1.5rem;
+            }
+            
+            .category-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .nav-tabs {
+                gap: 3px;
+            }
+            
+            .tab-button {
+                padding: 6px 10px;
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <div class="logo-icon">⚖️</div>
+                    <div class="logo-text">​律科森</div>
+                </div>
+                
+                <div class="search-container">
+                    <input type="text" class="search-input" placeholder="搜索法律资源...">
+                    <button class="search-button">🔍</button>
+                </div>
+                
+                <div class="controls">
+                    <button class="theme-toggle" id="themeToggle">🌙</button>
+                </div>
+            </div>
+            
+            <div class="nav-tabs" id="categoryTabs">
+                <!-- 分类标签将通过JS动态生成 -->
+            </div>
+        </div>
+    </header>
+    
+    <main>
+        <div class="container">
+            <div id="categoryContent">
+                <!-- 分类内容将通过JS动态生成 -->
+            </div>
+        </div>
+    </main>
+    
+    <footer>
+        <div class="container">
+            <p class="copyright">© 2005-2025 ​律科森​ lexcn.com 收集整理超过100个权威法律网站</p>
+        </div>
+    </footer>
+    
+    <script>
+        // 网站数据
+        const sitesData = [
+            {
+                category: "司法案例与裁判文书",
+                sites: [
+                    {title: "中国裁判文书网", url: "https://wenshu.court.gov.cn/", description: "最高人民法院官方裁判文书公开平台"},
+                    {title: "人民法院案例库", url: "https://rmfyalk.court.gov.cn/", description: "最高人民法院权威案例库"},
+                    {title: "中国司法案例网", url: "https://anli.court.gov.cn/", description: "最高人民法院司法案例研究院主办"},
+                    {title: "OpenLaw", url: "http://openlaw.cn/", description: "开放法律裁判文书检索平台"},
+                    {title: "聚法案例", url: "https://www.jufaanli.com/", description: "可视化案例检索工具"},
+                    {title: "法信", url: "http://www.faxin.cn/", description: "最高人民法院案例大数据平台"},
+                    {title: "元典智库", url: "http://www.chineselaw.com/", description: "法律大数据智能工具"},
+                    {title: "把手案例", url: "https://www.lawsdata.com/", description: "法律案例数据分析平台"},
+                    {title: "无讼案例", url: "https://www.itslaw.com/", description: "天同律师事务所案例库"},
+                    {title: "最高人民法院公报", url: "http://gongbao.court.gov.cn/", description: "最高人民法院官方公报"}
+                ]
+            },
+            {
+                category: "法律法规数据库",
+                sites: [
+                    {title: "国家法律法规数据库", url: "https://flk.npc.gov.cn/", description: "全国人大常委会官方数据库"},
+                    {title: "北大法宝", url: "https://www.pkulaw.com/", description: "最全面的法律信息检索系统"},
+                    {title: "威科先行", url: "https://law.wkinfo.com.cn/", description: "专业法律信息库"},
+                    {title: "中国法律信息网", url: "http://service.law-star.com/", description: "法律之星数据库"},
+                    {title: "法律图书馆", url: "http://www.law-lib.com/", description: "法律资料综合数据库"},
+                    {title: "国务院文件库", url: "http://www.gov.cn/zhengce/xxgkzl.htm", description: "国务院政策文件库"},
+                    {title: "检察法律法规库", url: "https://www.spp.gov.cn/spp/flfgk/index.shtml", description: "最高检法律法规库"},
+                    {title: "中国法院网法律文库", url: "https://www.chinacourt.org/law.shtml", description: "最高人民法院法律文库"},
+                    {title: "如法网", url: "https://www.rulaw.cn/", description: "法律信息服务平台"},
+                    {title: "中国政府网政策数据库", url: "http://www.gov.cn/zhengce/", description: "中央政策文件数据库"}
+                ]
+            },
+            {
+                category: "法律信息综合服务",
+                sites: [
+                    {title: "中国法律服务网", url: "https://www.12348.gov.cn/", description: "司法部法律服务综合平台"},
+                    {title: "中国普法网", url: "http://www.legalinfo.gov.cn/", description: "司法部全国普法办公室"},
+                    {title: "法制网", url: "http://www.legaldaily.com.cn/", description: "法制日报社主办"},
+                    {title: "正义网", url: "http://www.jcrb.com/", description: "检察日报社主办"},
+                    {title: "北大法律信息网", url: "http://www.chinalawinfo.com/", description: "北京大学法律信息平台"},
+                    {title: "法律数据实验室", url: "https://www.lawsdata.com/", description: "法律数据分析研究平台"},
+                    {title: "法宣在线", url: "https://www.faxuanyun.com/", description: "法治宣传教育平台"},
+                    {title: "中国法律资源库", url: "http://www.lawyee.org/", description: "综合法律知识库"},
+                    {title: "中国民商法律网", url: "http://www.civillaw.com.cn/", description: "民商法专业平台"},
+                    {title: "找法网", url: "https://china.findlaw.cn/", description: "法律咨询与律师服务平台"}
+                ]
+            },
+            {
+                category: "主体信息查询",
+                sites: [
+                    {title: "国家企业信用信息公示系统", url: "http://www.gsxt.gov.cn/", description: "企业信用信息查询"},
+                    {title: "全国组织机构统一社会信用代码", url: "https://www.cods.org.cn/", description: "组织机构代码查询"},
+                    {title: "信用中国", url: "https://www.creditchina.gov.cn/", description: "全国信用信息平台"},
+                    {title: "央行征信中心", url: "http://www.pbccrc.org.cn/", description: "个人信用信息查询"},
+                    {title: "中国海关企业进出口信用", url: "http://credit.customs.gov.cn/", description: "海关企业信用公示"},
+                    {title: "企查查", url: "https://www.qcc.com/", description: "企业信息查询平台"},
+                    {title: "天眼查", url: "https://www.tianyancha.com/", description: "企业信用信息查询"},
+                    {title: "启信宝", url: "https://www.qixin.com/", description: "企业信息查询工具"},
+                    {title: "破产重整案件信息网", url: "https://pccz.court.gov.cn/", description: "破产案件信息查询"},
+                    {title: "动产融资统一登记公示系统", url: "https://www.zhongdengwang.org.cn/", description: "动产融资登记查询"}
+                ]
+            },
+            {
+                category: "法律学术与研究",
+                sites: [
+                    {title: "中国法学网", url: "http://iolaw.cssn.cn/", description: "社科院法学研究所"},
+                    {title: "中国宪治网", url: "http://www.calaw.cn/", description: "宪法学研究平台"},
+                    {title: "中国刑事法律网", url: "http://www.criminallaw.com.cn/", description: "刑事法学研究平台"},
+                    {title: "中国理论法学研究信息网", url: "https://www.legal-theory.org/", description: "法理学研究平台"},
+                    {title: "法律思想网", url: "http://flsxw.lsbar.com/", description: "法律思想研究平台"},
+                    {title: "法学时评网", url: "http://www.lawintime.cn/", description: "法学评论与研究"},
+                    {title: "月旦法学知识库", url: "http://lawdata.com.tw/tw/", description: "台湾法学研究数据库"},
+                    {title: "LexisNexis", url: "https://www.lexisnexis.com/", description: "国际法律研究数据库"},
+                    {title: "Westlaw", url: "https://www.westlaw.com/", description: "国际法律数据库"},
+                    {title: "哈佛法律评论", url: "https://harvardlawreview.org/", description: "哈佛大学法律期刊"}
+                ]
+            },
+            {
+                category: "法律实务与工具",
+                sites: [
+                    {title: "智能合同审查MeCheck", url: "https://mecheck.net.cn/", description: "合同智能审查工具"},
+                    {title: "智能合同管理MeFlow", url: "https://meflow.com.cn/", description: "合同全周期管理平台"},
+                    {title: "Alpha数据库", url: "https://alphalawyer.cn/", description: "律师工作效率工具"},
+                    {title: "最高人民法院诉讼服务网", url: "https://ssfw.court.gov.cn/", description: "在线诉讼服务平台"},
+                    {title: "中国审判流程信息公开网", url: "https://splcgk.court.gov.cn/", description: "案件审判流程查询"},
+                    {title: "中国执行信息公开网", url: "http://zxgk.court.gov.cn/", description: "执行案件信息查询"},
+                    {title: "人民法院送达平台", url: "https://songda.court.gov.cn/", description: "电子送达服务平台"},
+                    {title: "人民法院公告网", url: "https://rmfygg.court.gov.cn/", description: "法院公告发布平台"},
+                    {title: "中国庭审公开网", url: "http://tingshen.court.gov.cn/", description: "庭审视频直播平台"},
+                    {title: "人民法院诉讼资产网", url: "https://www.rmfysszc.gov.cn/", description: "司法拍卖平台"}
+                ]
+            },
+            {
+                category: "政府与司法机构",
+                sites: [
+                    {title: "全国人民代表大会", url: "http://www.npc.gov.cn/", description: "全国人大官网"},
+                    {title: "中央人民政府", url: "http://www.gov.cn/", description: "国务院官方网站"},
+                    {title: "最高人民法院", url: "http://www.court.gov.cn/", description: "最高法官网"},
+                    {title: "最高人民检察院", url: "http://www.spp.gov.cn/", description: "最高检官网"},
+                    {title: "司法部", url: "http://www.moj.gov.cn/", description: "司法部官网"},
+                    {title: "公安部", url: "http://www.mps.gov.cn/", description: "公安部官网"},
+                    {title: "国家监察委员会", url: "http://www.ccdi.gov.cn/", description: "国家监委官网"},
+                    {title: "国家知识产权局", url: "http://www.cnipa.gov.cn/", description: "知识产权局官网"},
+                    {title: "国家市场监督管理总局", url: "http://www.samr.gov.cn/", description: "市场监管总局官网"},
+                    {title: "中国人大网", url: "http://www.npc.gov.cn/", description: "全国人大信息平台"}
+                ]
+            },
+            {
+                category: "律师与律协",
+                sites: [
+                    {title: "中华全国律师协会", url: "http://www.acla.org.cn/", description: "全国律协官网"},
+                    {title: "北京市律师协会", url: "http://www.beijinglawyers.org.cn/", description: "北京律协官网"},
+                    {title: "东方律师网", url: "http://www.lawyers.org.cn/", description: "上海律协官网"},
+                    {title: "广州市律师协会", url: "http://www.gzlawyer.org/", description: "广州律协官网"},
+                    {title: "深圳市律师协会", url: "http://www.szlawyers.com/", description: "深圳律协官网"},
+                    {title: "中国律师网", url: "http://www.acla.org.cn/", description: "全国律协行业网站"},
+                    {title: "华律网", url: "https://www.66law.cn/", description: "法律咨询与律师服务平台"},
+                    {title: "律图", url: "https://www.64365.com/", description: "法律咨询平台"},
+                    {title: "法律快车", url: "https://www.lawtime.cn/", description: "法律服务平台"},
+                    {title: "中律网", url: "http://www.148com.com/", description: "法律服务平台"}
+                ]
+            },
+            {
+                category: "法律新闻与资讯",
+                sites: [
+                    {title: "律新社", url: "http://www.lvxinweb.com/", description: "法律新媒体平台"},
+                    {title: "智合", url: "https://www.zhihedongfang.com/", description: "法律新媒体"},
+                    {title: "检察日报", url: "http://newspaper.jcrb.com/", description: "最高检机关报"},
+                    {title: "法制日报", url: "http://www.legaldaily.com.cn/", description: "中央政法委机关报"},
+                    {title: "中国警察网", url: "http://www.cpd.com.cn/", description: "公安部主办"},
+                    {title: "中国法院网", url: "https://www.chinacourt.org/", description: "最高人民法院主办"},
+                    {title: "中国劳动保障新闻网", url: "https://www.clssn.com/", description: "人社部主管"},
+                    {title: "法治周末", url: "http://www.legalweekly.cn/", description: "法治新闻周报"},
+                    {title: "新京报法律频道", url: "https://www.bjnews.com.cn/focus/falv", description: "法治新闻报道"},
+                    {title: "财新网法治频道", url: "https://www.caixin.com/topic/fazhi", description: "法治深度报道"}
+                ]
+            },
+            {
+                category: "法律论坛与社区",
+                sites: [
+                    {title: "学法网", url: "http://bbs.xuefa.com/", description: "法律人交流社区"},
+                    {title: "法眼天下", url: "http://73bbs.com/", description: "法律论坛"},
+                    {title: "葵花法律论坛", url: "http://www.mykh.net/", description: "法律人社区"},
+                    {title: "法律教育网论坛", url: "http://bbs.chinalawedu.com/", description: "法律考试交流社区"},
+                    {title: "天涯法治论坛", url: "http://bbs.tianya.cn/list-law-1.shtml", description: "公众法律讨论区"},
+                    {title: "中国律师网论坛", url: "http://bbs.acla.org.cn/", description: "律师专业交流平台"},
+                    {title: "知乎法律话题", url: "https://www.zhihu.com/topic/19552521", description: "法律问答社区"},
+                    {title: "百度法律贴吧", url: "https://tieba.baidu.com/f?kw=%E6%B3%95%E5%BE%8B", description: "公众法律讨论区"},
+                    {title: "法律圈", url: "https://www.falvquan.com/", description: "法律人职业社区"},
+                    {title: "法考论坛", url: "https://bbs.fakaoum.com/", description: "法律职业资格考试论坛"}
+                ]
+            },
+            {
+                category: "法律期刊与出版",
+                sites: [
+                    {title: "中国知网", url: "https://www.cnki.net/", description: "学术期刊数据库"},
+                    {title: "维普网", url: "http://www.cqvip.com/", description: "学术期刊平台"},
+                    {title: "万方数据", url: "http://www.wanfangdata.com.cn/", description: "学术资源库"},
+                    {title: "法律出版社", url: "http://www.lawpress.com.cn/", description: "专业法律图书出版"},
+                    {title: "中国法制出版社", url: "http://www.zgfzs.com/", description: "法律专业出版社"},
+                    {title: "人民法院出版社", url: "http://www.courtpress.com.cn/", description: "法院系统出版社"},
+                    {title: "检察出版社", url: "http://www.spp.org.cn/", description: "检察系统出版社"},
+                    {title: "法学期刊网", url: "http://www.faxueqikan.com/", description: "法学期刊平台"},
+                    {title: "全国报刊索引", url: "http://www.cnbksy.cn/", description: "报刊文献数据库"},
+                    {title: "北大法律信息网法学在线", url: "http://article.chinalawinfo.com/", description: "法学论文平台"}
+                ]
+            },
+            {
+                category: "国际法律资源",
+                sites: [
+                    {title: "世界贸易组织法律数据库", url: "https://www.wto.org/english/tratop_e/dispu_e/dispu_agreements_index_e.htm", description: "WTO法律文件库"},
+                    {title: "联合国国际贸易法委员会", url: "https://uncitral.un.org/", description: "国际贸易法资源"},
+                    {title: "世界知识产权组织", url: "https://www.wipo.int/portal/en/", description: "知识产权法律资源"},
+                    {title: "国际法院", url: "https://www.icj-cij.org/", description: "国际司法机构"},
+                    {title: "海牙国际私法会议", url: "https://www.hcch.net/", description: "国际私法公约"},
+                    {title: "欧盟法律数据库", url: "https://eur-lex.europa.eu/", description: "欧盟法律法规"},
+                    {title: "国际劳工组织", url: "https://www.ilo.org/", description: "国际劳工标准"},
+                    {title: "前南国际刑事法庭", url: "https://www.icty.org/", description: "国际刑事案例库"},
+                    {title: "世界银行法律数据库", url: "https://www.worldbank.org/en/about/legal", description: "国际发展法律"},
+                    {title: "国际刑事法院", url: "https://www.icc-cpi.int/", description: "国际刑事司法"}
+                ]
+            }
+        ];
+
+        // 页面加载完成后初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            // 初始化分类标签
+            initCategoryTabs();
+            
+            // 初始化分类内容
+            initCategoryContent();
+            
+            // 添加全部分类标签
+            const allCategoriesButton = document.createElement('button');
+            allCategoriesButton.className = 'tab-button';
+            allCategoriesButton.textContent = '全部分类';
+            allCategoriesButton.dataset.index = '-1';
+            allCategoriesButton.addEventListener('click', function() {
+                showCategory(parseInt(this.dataset.index));
+            });
+            document.getElementById('categoryTabs').prepend(allCategoriesButton);
+
+            // 默认显示第一个分类
+            showCategory(-1);
+            document.querySelector('.tab-button[data-index="-1"]').classList.add('active');
+            
+            // 主题切换按钮事件
+            document.getElementById('themeToggle').addEventListener('click', toggleTheme);
+            
+            // 搜索功能
+            document.querySelector('.search-button').addEventListener('click', performSearch);
+            document.querySelector('.search-input').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    performSearch();
+                }
+            });
+        });
+
+        // 初始化分类标签
+        function initCategoryTabs() {
+            const tabsContainer = document.getElementById('categoryTabs');
+            
+            sitesData.forEach((category, index) => {
+                const button = document.createElement('button');
+                button.className = 'tab-button';
+                button.textContent = category.category;
+                button.dataset.index = index;
+                
+                button.addEventListener('click', function() {
+                    showCategory(parseInt(this.dataset.index));
+                });
+                
+                tabsContainer.appendChild(button);
+            });
+        }
+
+        // 初始化分类内容
+        function initCategoryContent() {
+            const contentContainer = document.getElementById('categoryContent');
+            
+            sitesData.forEach((category, index) => {
+                const section = document.createElement('div');
+                section.className = 'category-section';
+                section.id = `category-${index}`;
+                
+                const grid = document.createElement('div');
+                grid.className = 'category-grid';
+                
+                // 创建网站卡片
+                const card = document.createElement('div');
+                card.className = 'category-card';
+                
+                const header = document.createElement('div');
+                header.className = 'category-header';
+                header.textContent = category.category;
+                
+                const siteList = document.createElement('ul');
+                siteList.className = 'site-list';
+                
+                // 添加网站
+                category.sites.forEach(site => {
+                    const listItem = document.createElement('li');
+                    listItem.className = 'site-item';
+                    
+                    const link = document.createElement('a');
+                    link.className = 'site-link';
+                    link.href = site.url;
+                    link.target = "_blank";
+                    link.textContent = site.title;
+                    
+                    const desc = document.createElement('div');
+                    desc.className = 'site-desc';
+                    desc.textContent = site.description;
+                    
+                    listItem.appendChild(link);
+                    listItem.appendChild(desc);
+                    siteList.appendChild(listItem);
+                });
+                
+                card.appendChild(header);
+                card.appendChild(siteList);
+                grid.appendChild(card);
+                section.appendChild(grid);
+                contentContainer.appendChild(section);
+            });
+        }
+
+        // 显示指定分类或全部分类
+        function showCategory(index) {
+            // 移除搜索结果（如果存在）
+            const searchResults = document.getElementById('search-results');
+            if (searchResults) {
+                searchResults.remove();
+            }
+            
+            // 更新标签状态
+            const tabs = document.querySelectorAll('.tab-button');
+            tabs.forEach((tab) => {
+                if (parseInt(tab.dataset.index) === index) {
+                    tab.classList.add('active');
+                } else {
+                    tab.classList.remove('active');
+                }
+            });
+
+            // 更新内容显示
+            const sections = document.querySelectorAll('.category-section');
+            if (index === -1) {
+                // 显示全部分类
+                sections.forEach(section => {
+                    section.classList.add('active');
+                    section.style.display = 'block';
+                });
+                // 调整布局为多列显示
+                document.getElementById('categoryContent').style.display = 'grid';
+                document.getElementById('categoryContent').style.gridTemplateColumns = 'repeat(auto-fill, minmax(300px, 1fr))';
+                document.getElementById('categoryContent').style.gap = '20px';
+            } else {
+                // 显示单个分类
+                document.getElementById('categoryContent').style.display = 'block';
+                sections.forEach((section, i) => {
+                    if (i === index) {
+                        section.classList.add('active');
+                        section.style.display = 'block';
+                    } else {
+                        section.classList.remove('active');
+                        section.style.display = 'none';
+                    }
+                });
+            }
+        }
+
+        // 切换主题
+        function toggleTheme() {
+            document.body.classList.toggle('dark-mode');
+            const themeButton = document.getElementById('themeToggle');
+            if (document.body.classList.contains('dark-mode')) {
+                themeButton.textContent = '☀️';
+            } else {
+                themeButton.textContent = '🌙';
+            }
+        }
+
+        // 执行搜索
+        function performSearch() {
+            const searchTerm = document.querySelector('.search-input').value.toLowerCase();
+            if (!searchTerm) return;
+            
+            // 清空内容容器
+            const contentContainer = document.getElementById('categoryContent');
+            contentContainer.innerHTML = '';
+
+            // 创建搜索结果容器
+            const resultsContainer = document.createElement('div');
+            resultsContainer.id = 'search-results';
+            contentContainer.appendChild(resultsContainer);
+        
+        // 确保搜索结果使用块布局
+        document.getElementById('categoryContent').style.display = 'block';
+            
+            // 隐藏所有分类内容
+            const sections = document.querySelectorAll('.category-section');
+            sections.forEach(section => section.style.display = 'none');
+
+            // 创建搜索结果网格
+            const grid = document.createElement('div');
+            grid.className = 'category-grid';
+            resultsContainer.appendChild(grid);
+            
+            // 搜索所有网站
+            let foundResults = false;
+            
+            sitesData.forEach(category => {
+                category.sites.forEach(site => {
+                    if (site.title.toLowerCase().includes(searchTerm) || 
+                        site.description.toLowerCase().includes(searchTerm) ||
+                        site.url.toLowerCase().includes(searchTerm)) {
+                        
+                        foundResults = true;
+                        
+                        const card = document.createElement('div');
+                        card.className = 'category-card';
+                        
+                        const header = document.createElement('div');
+                        header.className = 'category-header';
+                        header.textContent = site.title;
+                        
+                        const content = document.createElement('div');
+                        content.className = 'site-item';
+                        content.style.padding = '15px';
+                        
+                        const desc = document.createElement('div');
+                        desc.className = 'site-desc';
+                        desc.textContent = site.description;
+                        desc.style.marginBottom = '10px';
+                        
+                        const link = document.createElement('a');
+                        link.className = 'site-link';
+                        link.href = site.url;
+                        link.target = "_blank";
+                        link.textContent = '访问网站';
+                        
+                        const categoryInfo = document.createElement('div');
+                        categoryInfo.className = 'site-desc';
+                        categoryInfo.textContent = `分类: ${category.category}`;
+                        categoryInfo.style.marginTop = '10px';
+                        categoryInfo.style.fontStyle = 'italic';
+                        
+                        content.appendChild(desc);
+                        content.appendChild(link);
+                        content.appendChild(categoryInfo);
+                        
+                        card.appendChild(header);
+                        card.appendChild(content);
+                        grid.appendChild(card);
+                    }
+                });
+            });
+            
+            // 如果没有结果
+            if (!foundResults) {
+                const noResults = document.createElement('div');
+                noResults.className = 'category-card';
+                noResults.style.textAlign = 'center';
+                noResults.style.padding = '30px';
+                
+                noResults.innerHTML = `
+                    <div class="category-header">未找到结果</div>
+                    <div style="padding:20px;">
+                        <p>没有找到匹配 " ${searchTerm} " 的法律资源</p>
+                        <p>请尝试其他搜索词</p>
+                    </div>
+                `;
+                
+                grid.appendChild(noResults);
+            }
+        }
+    </script>
+
+    <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?1c3b69810a79d53f4574e248335360ba";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+    </script>
+
+</body>
+</html>
